@@ -11,6 +11,13 @@ from app.routers.admin import router as admin_router
 # Create FastAPI application instance
 app = FastAPI(title="Pharma Invoice Verification API")
 
+
+# Health check, no login needed, for monitoring and deployments
+@app.get("/health")
+def health_check():
+    # Simple liveness check, the database is not touched here
+    return {"status": "ok"}
+
 # Register routers
 app.include_router(users_router)
 app.include_router(auth_router)
