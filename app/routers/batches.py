@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
 from app.database.session import get_db
@@ -49,7 +49,8 @@ def create_batch(
 @router.get("", response_model=list[BatchResponse])
 def list_batches(
     skip: int = 0,
-    limit: int = 20,
+    # A page never returns more than 100 rows
+    limit: int = Query(20, le=100),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):

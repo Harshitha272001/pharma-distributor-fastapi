@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, File, HTTPException, status, UploadFile
+from fastapi import APIRouter, Depends, File, HTTPException, Query, status, UploadFile
 from sqlalchemy.orm import Session
 
 from app.database.session import get_db
@@ -212,7 +212,8 @@ async def upload_invoice(
 def list_invoices(
     status: str | None = None,
     skip: int = 0,
-    limit: int = 20,
+    # A page never returns more than 100 rows
+    limit: int = Query(20, le=100),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
