@@ -17,6 +17,16 @@ rejects each invoice with a reason.
   validated with Pydantic, one retry on validation failure
 - File upload for .txt invoices (PDF and image upload needs OCR, not set up yet)
 
+## Screenshots & Architecture
+
+![Architecture](docs/architecture.png)
+
+![API Endpoints](docs/screenshots/endpoints.png)
+
+![Live API demo](docs/screenshots/api-demo.png)
+
+![Tests](docs/screenshots/pytest.png)
+
 ## Setup
 
 ```bash
