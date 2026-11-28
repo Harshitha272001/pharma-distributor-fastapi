@@ -17,6 +17,37 @@ rejects each invoice with a reason.
   validated with Pydantic, one retry on validation failure
 - File upload for .txt invoices (PDF and image upload needs OCR, not set up yet)
 
+## API endpoints
+
+| Method | Path | What it does | Auth needed |
+| ------ | ---- | ------------ | ----------- |
+| GET | `/health` | Health check, returns API status | No login |
+| POST | `/users/register` | Register a new user (admin, staff, qa, distributor) | No login |
+| POST | `/auth/login` | Log in and get a JWT access token | No login |
+| GET | `/users/me` | Get the logged-in user's profile | Login |
+| GET | `/users/admin-test` | Test endpoint that only an admin can reach | Admin role |
+| POST | `/invoices` | Create an invoice | Login |
+| POST | `/invoices/text` | Create an invoice from pasted invoice text | Login |
+| POST | `/invoices/ai-text` | Create an invoice from LLM-parsed invoice text | Login |
+| POST | `/invoices/upload` | Upload a .txt invoice file | Login |
+| GET | `/invoices` | List invoices, with status filter and pagination (limit capped at 100) | Login |
+| GET | `/invoices/{invoice_id}` | Get one invoice with its batches and line items | Login |
+| PATCH | `/invoices/{invoice_id}` | Update an invoice | Login |
+| DELETE | `/invoices/{invoice_id}` | Delete an invoice | Login |
+| PATCH | `/invoices/{invoice_id}/review` | QA approve or reject an invoice (reason required on reject) | QA role |
+| GET | `/invoices/{invoice_id}/reviews` | List the QA reviews on an invoice | Login |
+| POST | `/batches` | Create a batch (expired and duplicate batches are rejected) | Login |
+| GET | `/batches` | List batches, with pagination (limit capped at 100) | Login |
+| GET | `/batches/{batch_no}` | Get one batch by batch number | Login |
+| PATCH | `/batches/{batch_id}` | Update a batch | Login |
+| DELETE | `/batches/{batch_id}` | Delete a batch | Login |
+| POST | `/line-items` | Add a line item to an invoice | Login |
+| GET | `/line-items` | List line items | Login |
+| GET | `/line-items/{line_item_id}` | Get one line item | Login |
+| PATCH | `/line-items/{line_item_id}` | Update a line item | Login |
+| DELETE | `/line-items/{line_item_id}` | Delete a line item | Login |
+| GET | `/admin/reports` | Invoice counts by status and batch counts by expiry | Admin role |
+
 ## Screenshots & Architecture
 
 ![Architecture](docs/architecture.png)
